@@ -9,7 +9,7 @@ namespace Akka.Event
     /// <summary>
     ///     Class BusLogging.
     /// </summary>
-    public class BusLogging : LoggingAdapterBase
+    public class BusLogging : LoggingAdapter
     {
         /// <summary>
         ///     The bus

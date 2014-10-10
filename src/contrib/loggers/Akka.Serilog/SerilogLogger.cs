@@ -7,7 +7,7 @@ namespace Akka.Logger.Serilog
 {
     public class SerilogLogger : ReceiveActor
     {
-        private readonly LoggingAdapter _log = Context.GetLogger();
+        private readonly LoggingAdapter _log = Logging.GetLogger(Context);
 
         private void WithSerilog(Action<ILogger> logStatement)
         {

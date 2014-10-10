@@ -45,7 +45,7 @@ namespace Akka.Cluster
 
         private readonly Cluster _cluster;
 
-        private readonly LoggingAdapter _logging = Context.GetLogger();
+        private readonly LoggingAdapter _logging = Logging.GetLogger(Context);
 
         public LoggingAdapter Log
         {

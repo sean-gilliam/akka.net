@@ -247,7 +247,7 @@ namespace Akka.Remote
     /// </summary>
     internal class ReliableDeliverySupervisor : UntypedActor, IActorLogging
     {
-        private readonly LoggingAdapter _log = Context.GetLogger();
+        private LoggingAdapter _log = Logging.GetLogger(Context);
         public LoggingAdapter Log { get { return _log; } }
 
         private AkkaProtocolHandle handleOrActive;
@@ -632,7 +632,7 @@ namespace Akka.Remote
         protected RemoteSettings Settings;
         protected Transport.Transport Transport;
 
-        private readonly LoggingAdapter _log = Context.GetLogger();
+        private readonly LoggingAdapter _log = Logging.GetLogger(Context);
         public LoggingAdapter Log { get { return _log; } }
 
         protected readonly EventPublisher EventPublisher;

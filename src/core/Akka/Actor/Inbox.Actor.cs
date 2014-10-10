@@ -19,7 +19,7 @@ namespace Akka.Actor
         private Tuple<DateTime, CancellationTokenSource> _currentDeadline;
 
         private int size;
-        private LoggingAdapter log = Context.GetLogger();
+        private LoggingAdapter log = Logging.GetLogger(Context);
         public LoggingAdapter Log { get { return log; } }
 
         public InboxActor(int size)

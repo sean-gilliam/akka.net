@@ -8,7 +8,7 @@ namespace Akka.Logger.NLog
 {
     public class NLogLogger : ReceiveActor
     {
-        private readonly LoggingAdapter _log = Context.GetLogger();
+        private readonly LoggingAdapter _log = Logging.GetLogger(Context);
 
         private static void Log(LogEvent logEvent, Action<NLogger> logStatement)
         {

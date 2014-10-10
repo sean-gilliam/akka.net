@@ -27,7 +27,7 @@ namespace Akka.Cluster
     /// </summary>
     internal class ClusterMetricsCollector : ReceiveActor, IActorLogging
     {
-        private readonly LoggingAdapter _logging = Context.GetLogger();
+        private readonly LoggingAdapter _logging = Logging.GetLogger(Context);
         public LoggingAdapter Log { get { return _logging; } }
 
         /// <summary>
