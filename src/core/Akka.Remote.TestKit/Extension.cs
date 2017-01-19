@@ -29,6 +29,11 @@ namespace Akka.Remote.TestKit
         //TODO:
         //override def lookup = TestConductor
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="system">TBD</param>
+        /// <returns>TBD</returns>
         public override TestConductor CreateExtension(ExtendedActorSystem system)
         {
             return new TestConductor(system);
@@ -50,12 +55,20 @@ namespace Akka.Remote.TestKit
     /// </summary>
     public partial class TestConductor : IExtension
     {
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="system">TBD</param>
+        /// <returns>TBD</returns>
         public static TestConductor Get(ActorSystem system)
         {
             return system.WithExtension<TestConductor, TestConductorExtension>();
         }
 
         readonly TestConductorSettings _settings;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TestConductorSettings Settings {get { return _settings; }}
 
         readonly RemoteTransport _transport;
@@ -72,6 +85,10 @@ namespace Akka.Remote.TestKit
 
         readonly ActorSystem _system;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="system">TBD</param>
         public TestConductor(ActorSystem system)
         {
             _settings = new TestConductorSettings(system.Settings.Config.WithFallback(TestConductorConfigFactory.Default())
@@ -88,29 +105,57 @@ namespace Akka.Remote.TestKit
     public class TestConductorSettings
     {
         readonly TimeSpan _connectTimeout;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TimeSpan ConnectTimeout { get { return _connectTimeout; } }
 
         readonly int _clientReconnects;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public int ClientReconnects { get { return _clientReconnects; } }
 
         readonly TimeSpan _reconnectBackoff;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TimeSpan ReconnectBackoff { get { return _reconnectBackoff; } }
 
         readonly TimeSpan _barrierTimeout;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TimeSpan BarrierTimeout { get { return _barrierTimeout; } }
 
         readonly TimeSpan _queryTimeout;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TimeSpan QueryTimeout { get { return _queryTimeout; } }
 
         readonly TimeSpan _packetSplitThreshold;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public TimeSpan PacketSplitThreshold { get { return _packetSplitThreshold; } }
 
         private readonly int _serverSocketWorkerPoolSize;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public int ServerSocketWorkerPoolSize{ get { return _serverSocketWorkerPoolSize; } }
 
         private readonly int _clientSocketWorkerPoolSize;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public int ClientSocketWorkerPoolSize { get { return _clientSocketWorkerPoolSize; } }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="config">TBD</param>
         public TestConductorSettings(Config config)
         {
             _connectTimeout = config.GetTimeSpan("connect-timeout");
@@ -123,6 +168,11 @@ namespace Akka.Remote.TestKit
             _clientSocketWorkerPoolSize = ComputeWps(config.GetConfig("helios.client-socket-worker-pool"));
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="config">TBD</param>
+        /// <returns>TBD</returns>
         public int ComputeWps(Config config)
         {
             return ThreadPoolConfig.ScaledPoolSize(
@@ -132,4 +182,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

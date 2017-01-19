@@ -52,6 +52,8 @@ namespace Akka.Remote.TestKit
         /// <summary>
         /// Register a config override for a specific participant.
         /// </summary>
+        /// <param name="roles">TBD</param>
+        /// <param name="configs">TBD</param>
         public void NodeConfig(IEnumerable<RoleName> roles, IEnumerable<Config> configs)
         {
             var c = configs.Aggregate((a, b) => a.WithFallback(b));
@@ -62,6 +64,7 @@ namespace Akka.Remote.TestKit
         /// Include for verbose debug logging
         /// </summary>
         /// <param name="on">when `true` debug Config is returned, otherwise config with info logging</param>
+        /// <returns>TBD</returns>
         public Config DebugConfig(bool on)
         {
             if (on)
@@ -81,6 +84,12 @@ namespace Akka.Remote.TestKit
             return ConfigurationFactory.Empty;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="name">TBD</param>
+        /// <exception cref="ArgumentException">TBD</exception>
+        /// <returns>TBD</returns>
         public RoleName Role(string name)
         {
             if (_roles.Exists(r => r.Name == name)) throw new ArgumentException("non-unique role name " + name);
@@ -89,6 +98,11 @@ namespace Akka.Remote.TestKit
             return roleName;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="role">TBD</param>
+        /// <param name="deployment">TBD</param>
         public void DeployOn(RoleName role, string deployment)
         {
             ImmutableList<string> roleDeployments;
@@ -97,6 +111,10 @@ namespace Akka.Remote.TestKit
                 roleDeployments == null ? ImmutableList.Create(deployment) : roleDeployments.Add(deployment));
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="deployment">TBD</param>
         public void DeployOnAll(string deployment)
         {
             _allDeploy = _allDeploy.Add(deployment);
@@ -114,6 +132,10 @@ namespace Akka.Remote.TestKit
 
         readonly Lazy<RoleName> _myself;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <exception cref="ArgumentException">TBD</exception>
         protected MultiNodeConfig()
         {
             _myself = new Lazy<RoleName>(() =>
@@ -123,11 +145,17 @@ namespace Akka.Remote.TestKit
             });
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public RoleName Myself
         {
             get { return _myself.Value; }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal Config Config
         {
             get
@@ -148,6 +176,11 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="node">TBD</param>
+        /// <returns>TBD</returns>
         internal ImmutableList<string> Deployments(RoleName node)
         {
             ImmutableList<string> deployments;
@@ -155,6 +188,9 @@ namespace Akka.Remote.TestKit
             return deployments == null ? _allDeploy : deployments.AddRange(_allDeploy);
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal ImmutableList<RoleName> Roles
         {
             get { return _roles; }
@@ -184,6 +220,7 @@ namespace Akka.Remote.TestKit
         /// Number of nodes node taking part in this test.
         /// -Dmultinode.max-nodes=4
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static int MaxNodes
         {
             get
@@ -209,6 +246,7 @@ namespace Akka.Remote.TestKit
         /// InetAddress.getLocalHost.getHostAddress is used if empty or "localhost"
         /// is defined as system property "multinode.host".
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static string SelfName
         {
             get
@@ -236,6 +274,7 @@ namespace Akka.Remote.TestKit
         /// 
         /// <code>-Dmultinode.port=0</code>
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static int SelfPort
         {
             get
@@ -258,6 +297,7 @@ namespace Akka.Remote.TestKit
         /// 
         /// <code>-Dmultinode.server-host=server.example.com</code>
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static string ServerName
         {
             get
@@ -288,6 +328,7 @@ namespace Akka.Remote.TestKit
         /// 
         /// <code>-Dmultinode.server-port=4711</code>
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static int ServerPort
         {
             get
@@ -315,6 +356,7 @@ namespace Akka.Remote.TestKit
         /// is started in “controller” mode on selfIndex 0, i.e. there you can inject
         /// failures and shutdown other nodes etc.
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public static int SelfIndex
         {
             get
@@ -329,6 +371,9 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public static Config NodeConfig
         {
             get
@@ -342,6 +387,9 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public static Config BaseConfig
         {
             get
@@ -381,6 +429,9 @@ namespace Akka.Remote.TestKit
         }
 
         readonly RoleName _myself;
+        /// <summary>
+        /// TBD
+        /// </summary>
         public RoleName Myself { get { return _myself; } }
         readonly ILoggingAdapter _log;
         private bool _isDisposed; //Automatically initialized to false;
@@ -389,11 +440,23 @@ namespace Akka.Remote.TestKit
         readonly ImmutableDictionary<RoleName, Replacement> _replacements;
         readonly Address _myAddress;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="config">TBD</param>
         protected MultiNodeSpec(MultiNodeConfig config) :
             this(config.Myself, ActorSystem.Create(GetCallerName(), config.Config), config.Roles, config.Deployments)
         {
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="myself">TBD</param>
+        /// <param name="system">TBD</param>
+        /// <param name="roles">TBD</param>
+        /// <param name="Func<RoleName">TBD</param>
+        /// <param name="deployments">TBD</param>
         protected MultiNodeSpec(
             RoleName myself,
             ActorSystem system,
@@ -420,11 +483,17 @@ namespace Akka.Remote.TestKit
             MultiNodeSpecBeforeAll();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public void MultiNodeSpecBeforeAll()
         {
             AtStartup();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public void MultiNodeSpecAfterAll()
         {
             // wait for all nodes to remove themselves before we shut the conductor down
@@ -433,12 +502,15 @@ namespace Akka.Remote.TestKit
                 TestConductor.RemoveNode(_myself);
                 Within(TestConductor.Settings.BarrierTimeout, () =>
                     AwaitCondition(() => TestConductor.GetNodes().Result.All(n => n.Equals(_myself))));
-
             }
+
             Shutdown(Sys);
             AfterTermination();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         protected virtual TimeSpan ShutdownTimeout { get { return TimeSpan.FromSeconds(5); } }
 
         /// <summary>
@@ -474,6 +546,7 @@ namespace Akka.Remote.TestKit
         /// Defines the number of participants required for starting the test. This
         /// might not be equals to the number of nodes available to the test.
         /// </summary>
+        /// <exception cref="InvalidOperationException">TBD</exception>
         public int InitialParticipants
         {
             get
@@ -491,12 +564,18 @@ namespace Akka.Remote.TestKit
         /// </summary>
         protected abstract int InitialParticipantsValueFactory { get; }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         protected TestConductor TestConductor;
 
         /// <summary>
         /// Execute the given block of code only on the given nodes (names according
         /// to the `roleMap`).
         /// </summary>
+        /// <param name="thunk">TBD</param>
+        /// <param name="nodes">TBD</param>
+        /// <exception cref="ArgumentException">TBD</exception>
         public void RunOn(Action thunk, params RoleName[] nodes)
         {
             if (nodes.Length == 0) throw new ArgumentException("No node given to run on.");
@@ -506,6 +585,8 @@ namespace Akka.Remote.TestKit
         /// <summary>
         /// Verify that the running node matches one of the given nodes
         /// </summary>
+        /// <param name="nodes">TBD</param>
+        /// <returns>TBD</returns>
         public bool IsNode(params RoleName[] nodes)
         {
             return nodes.Contains(_myself);
@@ -515,6 +596,7 @@ namespace Akka.Remote.TestKit
         /// Enter the named barriers in the order given. Use the remaining duration from
         /// the innermost enclosing `within` block or the default `BarrierTimeout`
         /// </summary>
+        /// <param name="name">TBD</param>
         public void EnterBarrier(params string[] name)
         {
             TestConductor.Enter(RemainingOr(TestConductor.Settings.BarrierTimeout), name.ToImmutableList());
@@ -526,12 +608,19 @@ namespace Akka.Remote.TestKit
         /// 
         /// <code>var serviceA = Sys.ActorSelection(Node(new RoleName("master")) / "user" / "serviceA");</code>
         /// </summary>
+        /// <param name="role">TBD</param>
+        /// <returns>TBD</returns>
         public ActorPath Node(RoleName role)
         {
             //TODO: Async stuff here 
             return new RootActorPath(TestConductor.GetAddressFor(role).Result);
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="system">TBD</param>
+        /// <param name="messageClasses">TBD</param>
         public void MuteDeadLetters(ActorSystem system = null, params Type[] messageClasses)
         {
             if (system == null) system = Sys;
@@ -549,6 +638,11 @@ namespace Akka.Remote.TestKit
 
         readonly IPEndPoint _controllerAddr;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="tc">TBD</param>
+        /// <exception cref="Exception">TBD</exception>
         protected void AttachConductor(TestConductor tc)
         {
             var timeout = tc.Settings.BarrierTimeout;
@@ -569,15 +663,33 @@ namespace Akka.Remote.TestKit
 
         // now add deployments, if so desired
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         sealed class Replacement
         {
             readonly string _tag;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public string Tag { get { return _tag; } }
             readonly RoleName _role;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public RoleName Role { get { return _role; } }
             readonly Lazy<string> _addr;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public string Addr { get { return _addr.Value; } }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="tag">TBD</param>
+            /// <param name="role">TBD</param>
+            /// <param name="spec">TBD</param>
             public Replacement(string tag, RoleName role, MultiNodeSpec spec)
             {
                 _tag = tag;
@@ -586,6 +698,12 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="system">TBD</param>
+        /// <param name="role">TBD</param>
+        /// <exception cref="ArgumentException">TBD</exception>
         protected void InjectDeployments(ActorSystem system, RoleName role)
         {
             var deployer = system.AsInstanceOf<ExtendedActorSystem>().Provider.Deployer;
@@ -628,6 +746,10 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <returns>TBD</returns>
         protected ActorSystem StartNewSystem()
         {
             var sb =
@@ -647,6 +769,9 @@ namespace Akka.Remote.TestKit
             return system;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -697,4 +822,3 @@ namespace Akka.Remote.TestKit
         void MultiNodeSpecAfterAll();
     }
 }
-

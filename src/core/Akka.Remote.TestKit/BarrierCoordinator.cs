@@ -32,24 +32,53 @@ namespace Akka.Remote.TestKit
     {
         #region State types and messages
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public enum State
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
             Idle,
+            /// <summary>
+            /// TBD
+            /// </summary>
             Waiting
         };
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class RemoveClient
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="name">TBD</param>
             public RemoveClient(RoleName name)
             {
                 Name = name;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public RoleName Name { get; private set; }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class Data
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="clients">TBD</param>
+            /// <param name="barrier">TBD</param>
+            /// <param name="arrived">TBD</param>
+            /// <param name="deadline">TBD</param>
             public Data(IEnumerable<Controller.NodeInfo> clients, string barrier, IEnumerable<IActorRef> arrived, Deadline deadline) : 
                 this(clients == null ? ImmutableHashSet.Create<Controller.NodeInfo>() : ImmutableHashSet.Create(clients.ToArray()), 
                 barrier, 
@@ -58,6 +87,13 @@ namespace Akka.Remote.TestKit
             {
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="clients">TBD</param>
+            /// <param name="barrier">TBD</param>
+            /// <param name="arrived">TBD</param>
+            /// <param name="deadline">TBD</param>
             public Data(ImmutableHashSet<Controller.NodeInfo> clients, string barrier, ImmutableHashSet<IActorRef> arrived, Deadline deadline)
             {
                 Deadline = deadline;
@@ -66,14 +102,34 @@ namespace Akka.Remote.TestKit
                 Clients = clients;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public ImmutableHashSet<Controller.NodeInfo> Clients { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public string Barrier { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public ImmutableHashSet<IActorRef> Arrived { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Deadline Deadline { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="clients">TBD</param>
+            /// <param name="barrier">TBD</param>
+            /// <param name="arrived">TBD</param>
+            /// <param name="deadline">TBD</param>
+            /// <returns>TBD</returns>
             public Data Copy(ImmutableHashSet<Controller.NodeInfo> clients = null, string barrier = null,
                 ImmutableHashSet<IActorRef> arrived = null, Deadline deadline = null)
             {
@@ -91,6 +147,11 @@ namespace Akka.Remote.TestKit
                     && Equals(Deadline, other.Deadline);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -98,6 +159,10 @@ namespace Akka.Remote.TestKit
                 return obj is Data && Equals((Data) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -110,25 +175,47 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(Data left, Data right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(Data left, Data right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class BarrierTimeoutException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrierData">TBD</param>
             public BarrierTimeoutException(Data barrierData)
                 : base(string.Format("timeout while waiting for barrier '{0}'", barrierData.Barrier))
             {
                 BarrierData = barrierData;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
             private bool Equals(BarrierTimeoutException other)
@@ -136,6 +223,11 @@ namespace Akka.Remote.TestKit
                 return Equals(BarrierData, other.BarrierData);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -143,30 +235,56 @@ namespace Akka.Remote.TestKit
                 return obj is BarrierTimeoutException && Equals((BarrierTimeoutException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 return (BarrierData != null ? BarrierData.GetHashCode() : 0);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(BarrierTimeoutException left, BarrierTimeoutException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(BarrierTimeoutException left, BarrierTimeoutException right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class FailedBarrierException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrierData">TBD</param>
             public FailedBarrierException(Data barrierData)
                 : base(string.Format("failing barrier '{0}'", barrierData.Barrier))
             {
                 BarrierData = barrierData;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
             private bool Equals(FailedBarrierException other)
@@ -174,6 +292,11 @@ namespace Akka.Remote.TestKit
                 return Equals(BarrierData, other.BarrierData);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -181,24 +304,48 @@ namespace Akka.Remote.TestKit
                 return obj is FailedBarrierException && Equals((FailedBarrierException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 return (BarrierData != null ? BarrierData.GetHashCode() : 0);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(FailedBarrierException left, FailedBarrierException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(FailedBarrierException left, FailedBarrierException right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class DuplicateNodeException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrierData">TBD</param>
+            /// <param name="node">TBD</param>
             public DuplicateNodeException(Data barrierData, Controller.NodeInfo node)
                 : base(string.Format(node.ToString()))
             {
@@ -206,8 +353,14 @@ namespace Akka.Remote.TestKit
                 BarrierData = barrierData;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Controller.NodeInfo Node { get; private set; }
 
             private bool Equals(DuplicateNodeException other)
@@ -215,6 +368,11 @@ namespace Akka.Remote.TestKit
                 return Equals(BarrierData, other.BarrierData) && Equals(Node, other.Node);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -222,6 +380,10 @@ namespace Akka.Remote.TestKit
                 return obj is DuplicateNodeException && Equals((DuplicateNodeException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -230,19 +392,40 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(DuplicateNodeException left, DuplicateNodeException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(DuplicateNodeException left, DuplicateNodeException right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class WrongBarrierException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrier">TBD</param>
+            /// <param name="client">TBD</param>
+            /// <param name="barrierData">TBD</param>
             public WrongBarrierException(string barrier, IActorRef client, Data barrierData)
                 : base($"[{client}] tried to enter '{barrier}' while we were waiting for '{barrierData.Barrier}'")
             {
@@ -251,10 +434,19 @@ namespace Akka.Remote.TestKit
                 Barrier = barrier;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public string Barrier { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public IActorRef Client { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
             private bool Equals(WrongBarrierException other)
@@ -262,6 +454,11 @@ namespace Akka.Remote.TestKit
                 return string.Equals(Barrier, other.Barrier) && Equals(Client, other.Client) && Equals(BarrierData, other.BarrierData);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -269,6 +466,10 @@ namespace Akka.Remote.TestKit
                 return obj is WrongBarrierException && Equals((WrongBarrierException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -280,25 +481,48 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(WrongBarrierException left, WrongBarrierException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(WrongBarrierException left, WrongBarrierException right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class BarrierEmptyException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrierData">TBD</param>
+            /// <param name="message">TBD</param>
             public BarrierEmptyException(Data barrierData, string message)
                 : base(message)
             {
                 BarrierData = barrierData;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
             private bool Equals(BarrierEmptyException other)
@@ -306,6 +530,11 @@ namespace Akka.Remote.TestKit
                 return Equals(BarrierData, other.BarrierData);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -313,24 +542,48 @@ namespace Akka.Remote.TestKit
                 return obj is BarrierEmptyException && Equals((BarrierEmptyException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 return (BarrierData != null ? BarrierData.GetHashCode() : 0);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(BarrierEmptyException left, BarrierEmptyException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(BarrierEmptyException left, BarrierEmptyException right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class ClientLostException : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="barrierData">TBD</param>
+            /// <param name="client">TBD</param>
             public ClientLostException(Data barrierData, RoleName client)
                 : base(string.Format("unannounced disconnect of {0}", client))
             {
@@ -338,8 +591,14 @@ namespace Akka.Remote.TestKit
                 BarrierData = barrierData;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Data BarrierData { get; private set; }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public RoleName Client { get; private set; }
 
             private bool Equals(ClientLostException other)
@@ -347,6 +606,11 @@ namespace Akka.Remote.TestKit
                 return Equals(BarrierData, other.BarrierData) && Equals(Client, other.Client);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -354,6 +618,10 @@ namespace Akka.Remote.TestKit
                 return obj is ClientLostException && Equals((ClientLostException) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -363,11 +631,23 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(ClientLostException left, ClientLostException right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(ClientLostException left, ClientLostException right)
             {
                 return !Equals(left, right);
@@ -376,6 +656,9 @@ namespace Akka.Remote.TestKit
 
         #endregion
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public BarrierCoordinator()
         {
             InitFSM();
@@ -385,12 +668,27 @@ namespace Akka.Remote.TestKit
         private bool _failed = false;
         private readonly ILoggingAdapter _log = Context.GetLogger();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="reason">TBD</param>
+        /// <param name="message">TBD</param>
         protected override void PreRestart(Exception reason, object message) { }
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="reason">TBD</param>
         protected override void PostRestart(Exception reason)
         {
             _failed = true;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <exception cref="BarrierEmptyException">TBD</exception>
+        /// <exception cref="ClientLostException">TBD</exception>
+        /// <exception cref="DuplicateNodeException">TBD</exception>
         protected void InitFSM()
         {
             StartWith(State.Idle, new Data(ImmutableHashSet.Create<Controller.NodeInfo>(), "", ImmutableHashSet.Create<IActorRef>(), null));
@@ -552,4 +850,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

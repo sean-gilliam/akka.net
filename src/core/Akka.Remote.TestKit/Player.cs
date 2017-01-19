@@ -34,6 +34,10 @@ namespace Akka.Remote.TestKit
     {
         IActorRef _client;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <exception cref="IllegalStateException">TBD</exception>
         public IActorRef Client
         {
             get
@@ -52,6 +56,9 @@ namespace Akka.Remote.TestKit
         /// this is a first barrier in itself). The number of expected participants is
         /// set in <see cref="TestConductor"/>`.startController()`.
         /// </summary>
+        /// <param name="name">TBD</param>
+        /// <param name="controllerAddr">TBD</param>
+        /// <returns>TBD</returns>
         public Task<Done> StartClient(RoleName name, IPEndPoint controllerAddr)
         {
             if(_client != null) throw new IllegalStateException("TestConductorClient already started");
@@ -109,6 +116,7 @@ namespace Akka.Remote.TestKit
         /// Enter the named barriers, one after the other, in the order given. Will
         /// throw an exception in case of timeouts or other errors.
         /// </summary>
+        /// <param name="name">TBD</param>
         public void Enter(string name)
         {
             Enter(Settings.BarrierTimeout, ImmutableList.Create(name));
@@ -118,6 +126,9 @@ namespace Akka.Remote.TestKit
         /// Enter the named barriers, one after the other, in the order given. Will
         /// throw an exception in case of timeouts or other errors.
         /// </summary>
+        /// <param name="timeout">TBD</param>
+        /// <param name="names">TBD</param>
+        /// <exception cref="TimeoutException">TBD</exception>
         public void Enter(TimeSpan timeout, ImmutableList<string> names)
         {
             _system.Log.Debug("entering barriers {0}", names.Aggregate((a, b) => "(" + a + "," + b + ")"));
@@ -151,6 +162,11 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="name">TBD</param>
+        /// <returns>TBD</returns>
         public Task<Address> GetAddressFor(RoleName name)
         {
             return _client.Ask<Address>(new ToServer<GetAddress>(new GetAddress(name)), Settings.QueryTimeout);
@@ -174,32 +190,71 @@ namespace Akka.Remote.TestKit
     class ClientFSM : FSM<ClientFSM.State, ClientFSM.Data>, ILoggingFSM
         //TODO: RequireMessageQueue
     {
+        /// <summary>
+        /// TBD
+        /// </summary>
         public enum State
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
             Connecting,
+            /// <summary>
+            /// TBD
+            /// </summary>
             AwaitDone,
+            /// <summary>
+            /// TBD
+            /// </summary>
             Connected,
+            /// <summary>
+            /// TBD
+            /// </summary>
             Failed
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal class Data
         {
             readonly IChannel _channel;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public IChannel Channel { get { return _channel; } }
             readonly Tuple<string, IActorRef> _runningOp;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Tuple<string, IActorRef> RunningOp { get { return _runningOp; } }
             
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="channel">TBD</param>
+            /// <param name="runningOp">TBD</param>
             public Data(IChannel channel, Tuple<string, IActorRef> runningOp)
             {
                 _channel = channel;
                 _runningOp = runningOp;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="other">TBD</param>
+            /// <returns>TBD</returns>
             protected bool Equals(Data other)
             {
                 return Equals(_channel, other._channel) && Equals(_runningOp, other._runningOp);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -208,6 +263,10 @@ namespace Akka.Remote.TestKit
                 return Equals((Data) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -217,37 +276,74 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(Data left, Data right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(Data left, Data right)
             {
                 return !Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="runningOp">TBD</param>
+            /// <returns>TBD</returns>
             public Data Copy(Tuple<string, IActorRef> runningOp)
             {
                 return new Data(Channel, runningOp);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal class Connected : INoSerializationVerificationNeeded
         {
             readonly IChannel _channel;
+            /// <summary>
+            /// TBD
+            /// </summary>
             public IChannel Channel{get { return _channel; }}
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="channel">TBD</param>
             public Connected(IChannel channel)
             {
                 _channel = channel;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="other">TBD</param>
+            /// <returns>TBD</returns>
             protected bool Equals(Connected other)
             {
                 return Equals(_channel, other._channel);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -256,34 +352,63 @@ namespace Akka.Remote.TestKit
                 return Equals((Connected) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 return (_channel != null ? _channel.GetHashCode() : 0);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(Connected left, Connected right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(Connected left, Connected right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal class ConnectionFailure : Exception
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="message">TBD</param>
             public ConnectionFailure(string message) : base(message)
             {
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal class Disconnected
         {
             private Disconnected() { }
             private static readonly Disconnected _instance = new Disconnected();
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public static Disconnected Instance
             {
                 get
@@ -298,6 +423,11 @@ namespace Akka.Remote.TestKit
         readonly PlayerHandler _handler;
         readonly RoleName _name;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="name">TBD</param>
+        /// <param name="controllerAddr">TBD</param>
         public ClientFSM(RoleName name, IPEndPoint controllerAddr)
         {
             _settings = TestConductor.Get(Context.System).Settings;
@@ -309,6 +439,10 @@ namespace Akka.Remote.TestKit
             InitFSM();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <exception cref="ConfigurationException">TBD</exception>
         public void InitFSM()
         {
             StartWith(State.Connecting, new Data(null, null));
@@ -539,6 +673,16 @@ namespace Akka.Remote.TestKit
         
         Deadline _nextAttempt;
         
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="server">TBD</param>
+        /// <param name="reconnects">TBD</param>
+        /// <param name="backoff">TBD</param>
+        /// <param name="poolSize">TBD</param>
+        /// <param name="fsm">TBD</param>
+        /// <param name="log">TBD</param>
+        /// <param name="scheduler">TBD</param>
         public PlayerHandler(IPEndPoint server, int reconnects, TimeSpan backoff, int poolSize, IActorRef fsm,
             ILoggingAdapter log, IScheduler scheduler)
         {
@@ -562,6 +706,11 @@ namespace Akka.Remote.TestKit
             return sb.ToString();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="exception">TBD</param>
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
             _log.Debug("channel {0} exception {1}", context.Channel, exception);
@@ -603,6 +752,10 @@ namespace Akka.Remote.TestKit
             }, TaskContinuationOptions.NotOnRanToCompletion);
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
         public override void ChannelActive(IChannelHandlerContext context)
         {
             _log.Debug("connected to {0}", context.Channel.RemoteAddress);
@@ -610,6 +763,10 @@ namespace Akka.Remote.TestKit
             context.FireChannelActive();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             if (!_loggedDisconnect) //added this to help mute log messages
@@ -629,6 +786,11 @@ namespace Akka.Remote.TestKit
             context.FireChannelInactive();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="message">TBD</param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var channel = context.Channel;
@@ -642,6 +804,11 @@ namespace Akka.Remote.TestKit
             channel.CloseAsync();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <returns>TBD</returns>
         public override Task CloseAsync(IChannelHandlerContext context)
         {
             _log.Info("Client: disconnecting {0} from {1}", context.Channel.LocalAddress, context.Channel.RemoteAddress);
@@ -649,4 +816,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

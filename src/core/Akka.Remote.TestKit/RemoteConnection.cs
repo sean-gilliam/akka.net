@@ -30,7 +30,13 @@ namespace Akka.Remote.TestKit
     /// </summary>
     internal enum Role
     {
+        /// <summary>
+        /// TBD
+        /// </summary>
         Client,
+        /// <summary>
+        /// TBD
+        /// </summary>
         Server
     };
 
@@ -89,6 +95,14 @@ namespace Akka.Remote.TestKit
             return _serverWorkerPool;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="role">TBD</param>
+        /// <param name="socketAddress">TBD</param>
+        /// <param name="poolSize">TBD</param>
+        /// <param name="upstreamHandler">TBD</param>
+        /// <returns>TBD</returns>
         public static Task<IChannel> CreateConnection(Role role, IPEndPoint socketAddress, int poolSize, IChannelHandler upstreamHandler)
         {
             if (role == Role.Client)
@@ -118,6 +132,10 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="connection">TBD</param>
         public static void Shutdown(IChannel connection)
         {
             var disconnectTimeout = TimeSpan.FromSeconds(2); //todo: make into setting loaded from HOCON
@@ -128,6 +146,10 @@ namespace Akka.Remote.TestKit
             
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <returns>TBD</returns>
         public static async Task ReleaseAll()
         {
             Task tc = _clientPool?.ShutdownGracefullyAsync() ?? TaskEx.Completed;
@@ -138,4 +160,3 @@ namespace Akka.Remote.TestKit
         #endregion
     }
 }
-

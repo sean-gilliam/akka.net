@@ -22,6 +22,12 @@ namespace Akka.Remote.TestKit.Proto
     {
         private readonly ILogger _logger = LoggingFactory.GetLogger<ProtobufEncoder>();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="message">TBD</param>
+        /// <param name="output">TBD</param>
         protected override void Encode(IChannelHandlerContext context, object message, List<object> output)
         {
             _logger.Debug("Encoding {0}", message);
@@ -53,4 +59,3 @@ namespace Akka.Remote.TestKit.Proto
         }
     }
 }
-

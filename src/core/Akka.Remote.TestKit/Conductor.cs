@@ -33,6 +33,10 @@ namespace Akka.Remote.TestKit
     {
         IActorRef _controller;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <exception cref="IllegalStateException">TBD</exception>
         public IActorRef Controller
         {
             get
@@ -59,9 +63,10 @@ namespace Akka.Remote.TestKit
         /// <param name="participants">participants gives the number of participants which shall connect
         ///  before any of their startClient() operations complete
         /// </param>
-        /// <param name="name"></param>
-        /// <param name="controllerPort"></param>
-        /// <returns></returns>
+        /// <param name="name">TBD</param>
+        /// <param name="controllerPort">TBD</param>
+        /// <exception cref="IllegalStateException">TBD</exception>
+        /// <returns>TBD</returns>
         public async Task<IPEndPoint> StartController(int participants, RoleName name, IPEndPoint controllerPort)
         {
             if(_controller != null) throw new IllegalStateException("TestConductorServer was already started");
@@ -105,7 +110,7 @@ namespace Akka.Remote.TestKit
         /// <param name="target">is the symbolic name of the other node to which connectivity shall be throttled</param>
         /// <param name="direction">can be either `Direction.Send`, `Direction.Receive` or `Direction.Both`</param>
         /// <param name="rateMBit">is the maximum data rate in MBit</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> Throttle(RoleName node, RoleName target, ThrottleTransportAdapter.Direction direction,
             float rateMBit)
         {
@@ -126,7 +131,7 @@ namespace Akka.Remote.TestKit
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
         /// <param name="target">is the symbolic name of the other node to which connectivity shall be impeded</param>
         /// <param name="direction">can be either `Direction.Send`, `Direction.Receive` or `Direction.Both`</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> Blackhole(RoleName node, RoleName target, ThrottleTransportAdapter.Direction direction)
         {
             return Throttle(node, target, direction, 0f);
@@ -151,7 +156,7 @@ namespace Akka.Remote.TestKit
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
         /// <param name="target">is the symbolic name of the other node to which connectivity shall be impeded</param>
         /// <param name="direction">can be either `Direction.Send`, `Direction.Receive` or `Direction.Both`</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> PassThrough(RoleName node, RoleName target, ThrottleTransportAdapter.Direction direction)
         {
             return Throttle(node, target, direction, -1f);
@@ -164,7 +169,7 @@ namespace Akka.Remote.TestKit
         /// </summary>
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
         /// <param name="target">is the symbolic name of the other node to which connectivity shall be impeded</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> Disconnect(RoleName node, RoleName target)
         {
             return Controller.Ask<Done>(new Disconnect(node, target, false), Settings.QueryTimeout);
@@ -177,7 +182,7 @@ namespace Akka.Remote.TestKit
         /// </summary>
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
         /// <param name="target">is the symbolic name of the other node to which connectivity shall be impeded</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> Abort(RoleName node, RoleName target)
         {
             return Controller.Ask<Done>(new Disconnect(node, target, true), Settings.QueryTimeout);
@@ -189,7 +194,7 @@ namespace Akka.Remote.TestKit
         /// </summary>
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
         /// <param name="exitValue">is the return code which shall be given to System.exit</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> Exit(RoleName node, int exitValue)
         {
             // the recover is needed to handle ClientDisconnectedException exception,
@@ -210,8 +215,9 @@ namespace Akka.Remote.TestKit
         /// removed, so that the remaining nodes may still pass subsequent barriers.
         /// </summary>
         /// <param name="node">is the symbolic name of the node which is to be affected</param>
-        /// <param name="abort"></param>
-        /// <returns></returns>
+        /// <param name="abort">TBD</param>
+        /// <exception cref="IllegalStateException">TBD</exception>
+        /// <returns>TBD</returns>
         public Task<Done> Shutdown(RoleName node, bool abort = false)
         {
             // the recover is needed to handle ClientDisconnectedException exception,
@@ -229,6 +235,7 @@ namespace Akka.Remote.TestKit
         /// <summary>
         /// Obtain the list of remote host names currently registered.
         /// </summary>
+        /// <returns>TBD</returns>
         public Task<IEnumerable<RoleName>> GetNodes()
         {
             return Controller.Ask<IEnumerable<RoleName>>(TestKit.Controller.GetNodes.Instance, Settings.QueryTimeout);
@@ -241,25 +248,37 @@ namespace Akka.Remote.TestKit
         /// present and future barriers).
         /// </summary>
         /// <param name="node">is the symbolic name of the node which is to be removed</param>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         public Task<Done> RemoveNode(RoleName node)
         {
             return Controller.Ask<Done>(new Remove(node), Settings.QueryTimeout);
         }
     }
 
+    /// <summary>
+    /// TBD
+    /// </summary>
     internal class ConductorHandler : ChannelHandlerAdapter
     {
         private readonly ILoggingAdapter _log;
         private readonly IActorRef _controller;
         private readonly ConcurrentDictionary<IChannel, IActorRef> _clients = new ConcurrentDictionary<IChannel, IActorRef>();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="controller">TBD</param>
+        /// <param name="log">TBD</param>
         public ConductorHandler(IActorRef controller, ILoggingAdapter log)
         {
             _controller = controller;
             _log = log;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
         public override void ChannelActive(IChannelHandlerContext context)
         {
             _log.Debug("connection from {0}", context.Channel.RemoteAddress);
@@ -277,6 +296,10 @@ namespace Akka.Remote.TestKit
                 });
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
         public override void ChannelInactive(IChannelHandlerContext context)
         {
             var channel = context.Channel;
@@ -290,6 +313,11 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="message">TBD</param>
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var channel = context.Channel;
@@ -313,12 +341,22 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="exception">TBD</param>
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
             var channel = context.Channel;
             _log.Warning("handled network error from {0}: {1} {2}", channel.RemoteAddress, exception.Message, exception.StackTrace);
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <returns>TBD</returns>
         public override Task CloseAsync(IChannelHandlerContext context)
         {
             _log.Info("Server: disconnecting {0} from {1}", context.Channel.LocalAddress, context.Channel.RemoteAddress);
@@ -348,12 +386,26 @@ namespace Akka.Remote.TestKit
         readonly IActorRef _controller;        
         RoleName _roleName;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public enum State
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
             Initial,
+            /// <summary>
+            /// TBD
+            /// </summary>
             Ready
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="controller">TBD</param>
+        /// <param name="channel">TBD</param>
         public ServerFSM(IActorRef controller, IChannel channel)
         {
             _controller = controller;
@@ -362,6 +414,9 @@ namespace Akka.Remote.TestKit
             InitFSM();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         protected void InitFSM()
         {
             StartWith(State.Initial, null);
@@ -455,4 +510,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

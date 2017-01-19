@@ -10,8 +10,14 @@ using Xunit;
 
 namespace Akka.Remote.TestKit
 {
+    /// <summary>
+    /// TBD
+    /// </summary>
     public class MultiNodeFactAttribute : FactAttribute
     {
+        /// <summary>
+        /// TBD
+        /// </summary>
         public static Lazy<bool> ExecutedByMultiNodeRunner =
             new Lazy<bool>(() =>
             {
@@ -22,6 +28,9 @@ namespace Akka.Remote.TestKit
                     || firstArg.Contains("Akka.NodeTestRunner");
             });
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public override string Skip
         {
             get
@@ -34,4 +43,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

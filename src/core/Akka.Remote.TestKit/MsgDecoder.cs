@@ -19,15 +19,28 @@ using Address = Akka.Actor.Address;
 
 namespace Akka.Remote.TestKit
 {
+    /// <summary>
+    /// TBD
+    /// </summary>
     internal class MsgDecoder : MessageToMessageDecoder<object>
     {
         private readonly ILogger _logger = LoggingFactory.GetLogger<MsgDecoder>();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="addr">TBD</param>
+        /// <returns>TBD</returns>
         public static Address Proto2Address(TCP.Address addr)
         {
             return new Address(addr.Protocol, addr.System, addr.Host, addr.Port);
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="dir">TBD</param>
+        /// <returns>TBD</returns>
         public static ThrottleTransportAdapter.Direction Proto2Direction(TCP.Direction dir)
         {
             switch (dir)
@@ -42,6 +55,12 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="message">TBD</param>
+        /// <exception cref="ArgumentException">TBD</exception>
+        /// <returns>TBD</returns>
         protected object Decode(object message)
         {
             _logger.Debug("Decoding {0}", message);
@@ -106,6 +125,12 @@ namespace Akka.Remote.TestKit
             throw new ArgumentException(string.Format("wrong message {0}", message));
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="message">TBD</param>
+        /// <param name="output">TBD</param>
         protected override void Decode(IChannelHandlerContext context, object message, List<object> output)
         {
             var o = Decode(message);
@@ -114,4 +139,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

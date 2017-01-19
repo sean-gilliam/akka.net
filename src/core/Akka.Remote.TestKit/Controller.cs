@@ -25,15 +25,25 @@ namespace Akka.Remote.TestKit
     /// </summary>
     class Controller : UntypedActor, ILogReceive
     {
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class ClientDisconnected : IDeadLetterSuppression
         {
             private readonly RoleName _name;
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="name">TBD</param>
             public ClientDisconnected(RoleName name)
             {
                 _name = name;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public RoleName Name
             {
                 get { return _name; }
@@ -44,6 +54,11 @@ namespace Akka.Remote.TestKit
                 return Equals(_name, other._name);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -51,21 +66,41 @@ namespace Akka.Remote.TestKit
                 return obj is ClientDisconnected && Equals((ClientDisconnected) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 return (_name != null ? _name.GetHashCode() : 0);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(ClientDisconnected left, ClientDisconnected right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(ClientDisconnected left, ClientDisconnected right)
             {
                 return !Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override string ToString()
             {
                 return string.Format("{0}: {1}", GetType(), Name);
@@ -93,11 +128,17 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public class GetNodes
         {
             private GetNodes() { }
             private static readonly GetNodes _instance = new GetNodes();
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public static GetNodes Instance
             {
                 get
@@ -107,11 +148,17 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public class GetSockAddr
         {
             private GetSockAddr() { }
             private static readonly GetSockAddr _instance = new GetSockAddr();
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public static GetSockAddr Instance
             {
                 get
@@ -126,15 +173,27 @@ namespace Akka.Remote.TestKit
         /// </summary>
         internal interface IHaveNodeInfo
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
             NodeInfo Node { get; }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         internal sealed class NodeInfo
         {
             readonly RoleName _name;
             readonly Address _addr;
             readonly IActorRef _fsm;
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="name">TBD</param>
+            /// <param name="addr">TBD</param>
+            /// <param name="fsm">TBD</param>
             public NodeInfo(RoleName name, Address addr, IActorRef fsm)
             {
                 _name = name;
@@ -142,16 +201,25 @@ namespace Akka.Remote.TestKit
                 _fsm = fsm;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public RoleName Name
             {
                 get { return _name; }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public Address Addr
             {
                 get { return _addr; }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public IActorRef FSM
             {
                 get { return _fsm; }
@@ -162,6 +230,11 @@ namespace Akka.Remote.TestKit
                 return Equals(_name, other._name) && Equals(_addr, other._addr) && Equals(_fsm, other._fsm);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="obj">TBD</param>
+            /// <returns>TBD</returns>
             public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj)) return false;
@@ -169,6 +242,10 @@ namespace Akka.Remote.TestKit
                 return obj is NodeInfo && Equals((NodeInfo) obj);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <returns>TBD</returns>
             public override int GetHashCode()
             {
                 unchecked
@@ -180,24 +257,46 @@ namespace Akka.Remote.TestKit
                 }
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator ==(NodeInfo left, NodeInfo right)
             {
                 return Equals(left, right);
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="left">TBD</param>
+            /// <param name="right">TBD</param>
+            /// <returns>TBD</returns>
             public static bool operator !=(NodeInfo left, NodeInfo right)
             {
                 return !Equals(left, right);
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         public sealed class CreateServerFSM : INoSerializationVerificationNeeded
         {
+            /// <summary>
+            /// TBD
+            /// </summary>
+            /// <param name="channel">TBD</param>
             public CreateServerFSM(IChannel channel)
             {
                 Channel = channel;
             }
 
+            /// <summary>
+            /// TBD
+            /// </summary>
             public IChannel Channel { get; private set; }
         }
 
@@ -217,6 +316,11 @@ namespace Akka.Remote.TestKit
         int _generation = 1;
         private readonly ILoggingAdapter _log = Context.GetLogger();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="initialParticipants">TBD</param>
+        /// <param name="controllerPort">TBD</param>
         public Controller(int initialParticipants, IPEndPoint controllerPort)
         {
             _log.Debug("Opening connection");
@@ -234,7 +338,7 @@ namespace Akka.Remote.TestKit
         /// terminate broken tests as quickly as possible (i.e. without awaiting
         /// BarrierTimeouts in the players).
         /// </summary>
-        /// <returns></returns>
+        /// <returns>TBD</returns>
         protected override SupervisorStrategy SupervisorStrategy()
         {
             return new OneForOneStrategy(e =>
@@ -265,6 +369,10 @@ namespace Akka.Remote.TestKit
             return Directive.Restart;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="message">TBD</param>
         protected override void OnReceive(object message)
         {
             var createServerFSM = message as CreateServerFSM;
@@ -390,6 +498,9 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
         protected override void PostStop()
         {
             try
@@ -404,4 +515,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-

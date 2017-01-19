@@ -25,17 +25,32 @@ namespace Akka.Remote.TestKit.Proto
         private readonly IMessageLite _prototype;
         private readonly ExtensionRegistry _extensions;
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="prototype">TBD</param>
         public ProtobufDecoder(IMessageLite prototype)
             : this(prototype, null)
         {
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="prototype">TBD</param>
+        /// <param name="extensions">TBD</param>
         public ProtobufDecoder(IMessageLite prototype, ExtensionRegistry extensions)
         {
             _prototype = prototype;
             _extensions = extensions;
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="input">TBD</param>
+        /// <param name="output">TBD</param>
         protected override void Decode(IChannelHandlerContext context, IByteBuf input, List<object> output)
         {
             _logger.Debug("Decoding {0} into Protobuf", input);
@@ -51,4 +66,3 @@ namespace Akka.Remote.TestKit.Proto
         }
     }
 }
-

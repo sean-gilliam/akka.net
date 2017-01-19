@@ -19,10 +19,18 @@ using Address = Akka.Actor.Address;
 
 namespace Akka.Remote.TestKit
 {
+    /// <summary>
+    /// TBD
+    /// </summary>
     internal class MsgEncoder : MessageToMessageEncoder<object>
     {
         private readonly ILogger _logger = LoggingFactory.GetLogger<MsgEncoder>();
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="addr">TBD</param>
+        /// <returns>TBD</returns>
         public static TCP.Address Address2Proto(Address addr)
         {
             return TCP.Address.CreateBuilder()
@@ -33,6 +41,11 @@ namespace Akka.Remote.TestKit
                 .Build();
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="dir">TBD</param>
+        /// <returns>TBD</returns>
         public static TCP.Direction Direction2Proto(ThrottleTransportAdapter.Direction dir)
         {
             switch (dir)
@@ -45,6 +58,12 @@ namespace Akka.Remote.TestKit
             }
         }
 
+        /// <summary>
+        /// TBD
+        /// </summary>
+        /// <param name="context">TBD</param>
+        /// <param name="message">TBD</param>
+        /// <param name="output">TBD</param>
         protected override void Encode(IChannelHandlerContext context, object message, List<object> output)
         {
             _logger.Debug("Encoding {0}", message);
@@ -130,4 +149,3 @@ namespace Akka.Remote.TestKit
         }
     }
 }
-
